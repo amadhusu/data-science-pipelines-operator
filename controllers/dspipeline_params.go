@@ -610,6 +610,35 @@ func (p *DSPAParams) ExtractParams(ctx context.Context, dsp *dspa.DataSciencePip
 			}
 		}
 
+		if cfg := p.APIServer.CustomKfpLauncherConfig; cfg != nil && cfg.Name != "" {
+			if cm, err := util.GetConfigMap(ctx, cfg.Name, p.Namespace, client); err != nil {
+				// If the custom kfp-launcher configmap is not available, that is OK
+				if !apierrs.IsNotFound(err) {
+					log.Info(fmt.Sprintf("Encountered error when attempting to fetch ConfigMap: [%s], Error: %v", cfg.Name, err))
+					return err
+				}
+			} else {
+				// Consume all the required information.
+				configMapName := config.CustomKfpLauncherConfigMapName
+				defaultPipelineRootValue := util.GetConfigMapValue(cfg.DefaultPipelineRoot, cm)
+				endpointValue := util.GetConfigMapValue(cfg.Endpoint, cm)
+				regionValue := util.GetConfigMapValue(cfg.Region, cm)
+				secretNameValue := util.GetConfigMapValue(cfg.SecretName, cm)
+				accessKeyKeyValue := util.GetConfigMapValue(cfg.AccessKeyKey, cm)
+				secretKeyKeyValue := util.GetConfigMapValue(cfg.SecretKeyKey, cm)
+
+				p.APIServer.CustomKfpLauncherConfig = &dspa.KfpLauncherConfigMap{
+					Name:                configMapName,
+					DefaultPipelineRoot: defaultPipelineRootValue,
+					Endpoint:            endpointValue,
+					Region:              regionValue,
+					SecretName:          secretNameValue,
+					AccessKeyKey:        accessKeyKeyValue,
+					SecretKeyKey:        secretKeyKeyValue,
+				}
+			}
+		}
+
 		// Track whether the "ca-bundle.crt" configmap key from odh-trusted-ca bundle
 		// was found, this will be used to decide whether we need to account for this
 		// ourselves later or not.
