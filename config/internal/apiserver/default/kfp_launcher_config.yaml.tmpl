@@ -2,14 +2,7 @@ apiVersion: v1
 data:
   {{ if and .APIServer.CustomKfpLauncherConfig .APIServer.CustomKfpLauncherConfig.Name }}
   defaultPipelineRoot: {{.APIServer.CustomKfpLauncherConfig.DefaultPipelineRoot}}
-  providers: |
-    s3:
-      endpoint: {{.APIServer.CustomKfpLauncherConfig.Endpoint}}
-      region: {{.APIServer.CustomKfpLauncherConfig.Region}}
-      defaultProviderSecretRef:
-        secretName: {{.APIServer.CustomKfpLauncherConfig.SecretName}}
-        accessKeyKey: {{.APIServer.CustomKfpLauncherConfig.AccessKeyKey}}
-        secretKeyKey: {{.APIServer.CustomKfpLauncherConfig.SecretKeyKey}}
+  {{ .APIServer.CustomKfpLauncherConfig.Data}}
   {{ else }}
     {{ if .ObjectStorageConnection.BasePath }}
     defaultPipelineRoot: s3://{{.ObjectStorageConnection.Bucket}}/{{.ObjectStorageConnection.BasePath}}

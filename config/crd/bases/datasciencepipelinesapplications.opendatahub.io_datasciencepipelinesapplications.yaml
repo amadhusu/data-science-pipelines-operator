@@ -111,19 +111,11 @@ spec:
                       you can provide for the api server to use instead of the one
                       provided with DSPO.
                     properties:
-                      accessKeyKey:
+                      data:
                         type: string
                       defaultPipelineRoot:
                         type: string
-                      endpoint:
-                        type: string
                       name:
-                        type: string
-                      region:
-                        type: string
-                      secretKeyKey:
-                        type: string
-                      secretName:
                         type: string
                     type: object
                   customServerConfigMap:

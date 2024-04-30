@@ -621,20 +621,12 @@ func (p *DSPAParams) ExtractParams(ctx context.Context, dsp *dspa.DataSciencePip
 				// Consume all the required information.
 				configMapName := config.CustomKfpLauncherConfigMapName
 				defaultPipelineRootValue := util.GetConfigMapValue(cfg.DefaultPipelineRoot, cm)
-				endpointValue := util.GetConfigMapValue(cfg.Endpoint, cm)
-				regionValue := util.GetConfigMapValue(cfg.Region, cm)
-				secretNameValue := util.GetConfigMapValue(cfg.SecretName, cm)
-				accessKeyKeyValue := util.GetConfigMapValue(cfg.AccessKeyKey, cm)
-				secretKeyKeyValue := util.GetConfigMapValue(cfg.SecretKeyKey, cm)
+				dataValues := util.GetConfigMapValue(cfg.Data, cm)
 
 				p.APIServer.CustomKfpLauncherConfig = &dspa.KfpLauncherConfigMap{
 					Name:                configMapName,
 					DefaultPipelineRoot: defaultPipelineRootValue,
-					Endpoint:            endpointValue,
-					Region:              regionValue,
-					SecretName:          secretNameValue,
-					AccessKeyKey:        accessKeyKeyValue,
-					SecretKeyKey:        secretKeyKeyValue,
+					Data:                dataValues,
 				}
 			}
 		}

@@ -164,11 +164,7 @@ type ScriptConfigMap struct {
 type KfpLauncherConfigMap struct {
 	Name                string `json:"name,omitempty"`
 	DefaultPipelineRoot string `json:"defaultPipelineRoot,omitempty"`
-	Endpoint            string `json:"endpoint,omitempty"`
-	Region              string `json:"region,omitempty"`
-	SecretName          string `json:"secretName,omitempty"`
-	AccessKeyKey        string `json:"accessKeyKey,omitempty"`
-	SecretKeyKey        string `json:"secretKeyKey,omitempty"`
+	Data                string `json:"data,omitempty"`
 }
 
 type PersistenceAgent struct {
